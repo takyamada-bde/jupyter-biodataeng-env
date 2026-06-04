@@ -1,0 +1,51 @@
+black
+ruff
+mypy
+tox
+structlog
+pytest
+pytest-snapshot
+tqdm
+line_profiler
+memory_profiler
+mkdocs
+numpy
+scipy
+statsmodels
+matplotlib
+openpyxl
+python-dotenv
+psycopg[binary]
+sqlalchemy
+sqlalchemy-utils
+pandas[performance, plot, computation, excel, xml, hdf5]
+polars-lts-cpu
+ibis-framework[pandas]
+requests
+pytrials
+pydantic
+sqlmodel
+alembic
+sqlacodegen
+pandera[pandas, mypy, ibis]
+seaborn
+fastcluster
+pillow
+scikit-learn
+xgboost
+lightgbm
+catboost
+optuna
+hyperopt
+ray
+torch --index-url https://download.pytorch.org/whl/cpu
+torchvision --index-url https://download.pytorch.org/whl/cpu
+jupyterlab
+ipywidgets
+ipympl
+ipytest
+rdkit
+biopython
+bioinfokit
+anndata
+scanpy[leiden]
