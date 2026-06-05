@@ -19,15 +19,15 @@ psycopg[binary]
 sqlalchemy
 sqlalchemy-utils
 pandas[performance, plot, computation, excel, xml, hdf5]
-polars-lts-cpu
-ibis-framework[pandas]
+polars
+ibis-framework[pandas, polars, postgres]
 requests
 pytrials
 pydantic
 sqlmodel
 alembic
 sqlacodegen
-pandera[pandas, mypy, ibis]
+pandera[pandas, polars, mypy, ibis]
 seaborn
 fastcluster
 pillow
