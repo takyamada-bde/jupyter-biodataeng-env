@@ -4,10 +4,14 @@ channels:
   - bioconda
 dependencies:
   - python=3.12
+  - jupyterlab
   - r-base
   - r-essentials
   - r-rlang
   - r-tidyverse
+  - r-dbi
+  - r-dbplyr
+  - r-rpostgres
   - r-wgcna
   - r-seurat
   - r-irkernel
