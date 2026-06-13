@@ -1,4 +1,4 @@
-name: bioinfo
+name: biodataeng
 channels:
   - conda-forge
   - bioconda
