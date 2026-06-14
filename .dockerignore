@@ -1,6 +1,10 @@
 *.md
 notebooks/data/
 
+# System files
+**/.*
+!**/.giekeep
+
 
 ### Docker ###
 
