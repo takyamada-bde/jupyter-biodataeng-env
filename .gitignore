@@ -1,5 +1,9 @@
 ### Python ###
 
+# System files
+**/.*
+!**/.giekeep
+
 # Data directories
 notebooks/data/*/*
 !notebooks/data/*/.gitkeep
