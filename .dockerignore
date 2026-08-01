@@ -3,7 +3,7 @@ notebooks/data/
 
 # System files
 **/.*
-!**/.giekeep
+!**/.gitkeep
 
 
 ### Docker ###

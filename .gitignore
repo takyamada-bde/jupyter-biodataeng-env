@@ -2,7 +2,9 @@
 
 # System files
 **/.*
-!**/.giekeep
+!**/.dockerignore
+!**/.gitignore
+!**/.gitkeep
 
 # Data directories
 notebooks/data/*/*
