@@ -3,7 +3,6 @@ notebooks/data/
 
 # System files
 **/.*
-!**/.github
 !**/.gitkeep
 
 

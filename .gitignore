@@ -2,6 +2,7 @@
 
 # System files
 **/.*
+!**/.devcontainer
 !**/.dockerignore
 !**/.env.example
 !**/.github
