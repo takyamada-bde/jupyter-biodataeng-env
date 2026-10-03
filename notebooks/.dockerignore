@@ -1,5 +1,7 @@
+.pixi
 *.md
 notebooks/data/
+
 
 # System files
 **/.*

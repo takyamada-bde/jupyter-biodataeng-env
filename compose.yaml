@@ -23,18 +23,11 @@ services:
     build: 
       context: ./notebooks
       dockerfile: ../dockerfiles/jupyter/Dockerfile
-      args:
-        DIR_WORK: "/usr/src"
-        ENV_YAML: "environment.yaml"
-        VENV: "biodataeng"
-        REQ_TXT: "requirements.txt"
-    command: mamba run -n biodataeng jupyter lab --ip=0.0.0.0 --allow-root --LabApp.token=''
+    command: pixi run lab
     ports:
      - "8888:8888"
     volumes:
      - ./notebooks:/usr/src
-    tty: true
-    stdin_open: true
     depends_on:
       - postgres
     networks:

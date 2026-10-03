@@ -1,32 +1,45 @@
-FROM condaforge/miniforge3:26.3.2-3
+FROM ghcr.io/prefix-dev/pixi:latest AS build
 
-ARG DIR_WORK
-WORKDIR ${DIR_WORK}/
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+RUN groupadd -r appgroup && useradd -r -m -d /home/appuser -g appgroup appuser
+
+WORKDIR /app
+RUN chown appuser:appgroup /app
+
+USER appuser
+
+COPY --chown=appuser:appgroup pixi.toml pixi.lock ./
+
+RUN pixi install --frozen --no-hard-links
+
+FROM ubuntu:24.04
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
+        ca-certificates \
         gcc \
         g++ \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG ENV_YAML
-COPY ${ENV_YAML} ${DIR_WORK}/
-ARG VENV
-RUN mamba update -y -c conda-forge mamba && \
-    mamba env create -f ${ENV_YAML} && \
-    mamba run -n ${VENV} pip install --no-cache-dir --upgrade pip && \
-    mamba run -n ${VENV} pip cache purge && \
-    mamba clean -a -y
+WORKDIR /app
 
-ARG REQ_TXT
-COPY ${REQ_TXT} ${DIR_WORK}/
-RUN mamba run -n ${VENV} pip install --no-cache-dir -r ${REQ_TXT} && \
-    mamba run -n ${VENV} pip cache purge && \
-    mamba clean -a -y
+RUN groupadd -r appgroup && useradd -r -m -d /home/appuser -g appgroup appuser
 
-USER ubuntu
+USER appuser
 
-CMD ["mamba", "run", "-n", "${VENV}", "/bin/bash"]
+COPY --from=build /usr/local/bin/pixi /usr/local/bin/pixi
+COPY --from=build --chown=appuser:appgroup /app/.pixi /app/.pixi
+COPY --chown=appuser:appgroup pixi.toml pixi.lock ./
+COPY --chown=appuser:appgroup . .
+
+EXPOSE 8888
+
+CMD ["pixi", "run", "lab"]
