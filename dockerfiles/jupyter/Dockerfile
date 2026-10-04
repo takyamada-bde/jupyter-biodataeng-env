@@ -3,13 +3,9 @@ FROM ghcr.io/prefix-dev/pixi:latest AS build
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-RUN groupadd -r appgroup && useradd -r -m -d /home/appuser -g appgroup appuser
-
 WORKDIR /app
-RUN chown appuser:appgroup /app
 
-USER appuser
-
+COPY .pixi/config.toml /etc/pixi/config.toml
 COPY --chown=appuser:appgroup pixi.toml pixi.lock ./
 
 RUN pixi install --frozen --no-hard-links
@@ -33,12 +29,13 @@ WORKDIR /app
 
 RUN groupadd -r appgroup && useradd -r -m -d /home/appuser -g appgroup appuser
 
-USER appuser
-
 COPY --from=build /usr/local/bin/pixi /usr/local/bin/pixi
-COPY --from=build --chown=appuser:appgroup /app/.pixi /app/.pixi
+COPY --from=build /etc/pixi/config.toml /etc/pixi/config.toml
+COPY --from=build /opt/pixi/envs /opt/pixi/envs
 COPY --chown=appuser:appgroup pixi.toml pixi.lock ./
 COPY --chown=appuser:appgroup . .
+
+USER appuser
 
 EXPOSE 8888
 

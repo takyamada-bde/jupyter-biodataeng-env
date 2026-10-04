@@ -1,13 +1,13 @@
-### Python ###
-
-# System files
-**/.*
+### System files
+# **/.*
 !**/.devcontainer
 !**/.dockerignore
 !**/.env.example
 !**/.github
 !**/.gitignore
 !**/.gitkeep
+
+### Python ###
 
 # Data directories
 notebooks/data/*/*
@@ -123,10 +123,6 @@ ipython_config.py
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 # poetry.lock
 # poetry.toml
-
-# pixi environments
-.pixi/*
-!.pixi/config.toml
 
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
