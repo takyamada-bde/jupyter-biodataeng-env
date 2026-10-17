@@ -1,74 +1,72 @@
 from pathlib import Path
 from typing import Union
 
-from dotenv import dotenv_values
 from sqlalchemy import create_engine, engine, URL
 from sqlalchemy.orm import sessionmaker, Session
 
+from db.config import BaseConfig
 
-def get_engine(dotenv_path: Union[Path, str]) -> engine.Engine:
+
+def get_engine(config: BaseConfig) -> engine.Engine:
     """
-    Create a database connection Engine.
+    Create a SQLAlchemy engine for database connection.
 
     Parameters
     ----------
-    dotenv_path : Union[Path, str]
-        Path to the .env file
+    config : BaseConfig
+        Database configuration object.
 
     Returns
     -------
     engine : sqlalchemy.engine.Engine
-        Engine for database connection
+        SQLAlchemy engine for database connection.
     """
-    config = dotenv_values(dotenv_path)
-
     url_object = URL.create(
         'postgresql+psycopg',
-        username=config['JUPYTER_DB_USER'],
-        password=config['JUPYTER_DB_PASSWORD'],  # plain (unescaped) text
-        host=config.get('POSTGRES_HOST', 'postgres'),
-        port=config.get('POSTGRES_PORT', '5432'),
-        database=config.get('POSTGRES_DB', 'postgres'),
-        query={'options': f'-c search_path={config.get("DATABASE_SCHEMA", "public")}'},
+        username=config.app_db_user,
+        password=config.app_db_password,  # plain (unescaped) text
+        host=config.postgres_host,
+        port=config.postgres_port,
+        database=config.postgres_db,
+        query={'options': f'-c search_path={config.app_db_schema}'},
     )
-
     engine = create_engine(url_object)
     return engine
 
 
-def get_sessionmaker(dotenv_path: Union[Path, str]) -> sessionmaker:
+def get_sessionmaker(config: BaseConfig) -> sessionmaker:
     """
-    Create a sessionmaker for database connection.
+    Create a SQLAlchemy sessionmaker for database connection.
 
     Parameters
     ----------
-    dotenv_path : Union[Path, str]
-        Path to the .env file
+    config : BaseConfig
+        Database configuration object.
 
     Returns
     -------
     SessionLocal : sqlalchemy.orm.sessionmaker
-        Sessionmaker for database connection
+        SQLAlchemy sessionmaker for database connection.
     """
-    engine = get_engine(dotenv_path)
+    engine = get_engine(config)
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     return SessionLocal
 
 
-def get_session(dotenv_path: Union[Path, str]) -> Session:
+def get_session(config: BaseConfig) -> Session:
     """
-    Create a database connection Session.
+    Create a SQLAlchemy session for database connection.
 
     Parameters
     ----------
-    dotenv_path : Union[Path, str]
-        Path to the .env file
+    config : BaseConfig
+        Database configuration object.
 
     Returns
     -------
     session : sqlalchemy.orm.Session
-        Session for database connection
+        SQLAlchemy session for database connection.
     """
-    sessionmaker = get_sessionmaker(dotenv_path)
-    session = sessionmaker()
+    SessionLocal = get_sessionmaker(config)
+    session = SessionLocal()
     return session

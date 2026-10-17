@@ -27,7 +27,7 @@ services:
     ports:
      - "8888:8888"
     volumes:
-     - ./notebooks:/usr/src
+     - ./notebooks:/app
     depends_on:
       - postgres
     networks:
