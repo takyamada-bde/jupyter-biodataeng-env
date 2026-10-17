@@ -46,6 +46,7 @@ jupyter-biodataeng-env/
 │   │   └── processed/            # Final, analysis-ready datasets
 │   ├── src/                      # Shared Python modules
 │   │   └── db/
+            ├── config.py         # Database connection configrations
 │   │       ├── session.py        # Database session management
 │   │       └── .env.example
 │   └── tests/                    # Tests
